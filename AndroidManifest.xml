@@ -63,6 +63,7 @@
             android:name="NotificationReceiver">
             
         </receiver>
+        <activity android:name="FoodItemListTabAtivity"></activity>
     </application>
 
 </manifest>

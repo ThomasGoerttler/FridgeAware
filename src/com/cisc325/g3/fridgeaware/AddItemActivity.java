@@ -18,17 +18,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.support.v4.app.NavUtils;
 
 public class AddItemActivity extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_item);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		
+		//Number Picker
+		NumberPicker drawer = (NumberPicker) findViewById(R.id.add_picker_categorie);
+		drawer.setMinValue(1);
+		drawer.setMaxValue(6);
 		
 		//Notification Settings Spinner...
 		Spinner spinner = (Spinner) findViewById(R.id.add_spinner_notifications);
@@ -57,16 +64,21 @@ public class AddItemActivity extends Activity {
 				int notificationSetting = spinner.getSelectedItemPosition();
 		
 				long expiryWarningDays = notificationSetting == 0 ? 7 : 1;
-				Date notificationDate = new Date(expiryDate.getTime() - expiryWarningDays * 24 * 60 * 60 * 1000); 
+				Date notificationDate = new Date( expiryDate.getTime() - expiryWarningDays * 24 * 60 * 60 * 1000); 
 
 				FoodItemDataSource datasource = new FoodItemDataSource(AddItemActivity.this);
 		        datasource.open();
 		        
-		        FoodItem foodItem = datasource.createFoodItem(name, expiryDate, notificationSetting);
+		        EditText categoryEditText = (EditText) findViewById(R.id.add_category);
+				String category = categoryEditText.getText().toString();
+				
+				int drawer = ((NumberPicker) findViewById(R.id.add_picker_categorie)).getValue();
+		        
+		        FoodItem foodItem = datasource.createFoodItem(name, expiryDate, notificationSetting, category, drawer);
 		        
 		        NotificationService noteService = new NotificationService(AddItemActivity.this);
 		        noteService.scheduleExpiryWarning(notificationDate, foodItem);
-		        				
+		        		 		
 				finish();
 			}
 		});

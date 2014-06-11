@@ -2,9 +2,9 @@
 <resources>
     
     <string-array name="notifications_spinner_array">
-        <item>One Week Before</item>
-        <item>One Day Before</item>
-        <item>One Month Before</item>
+        <item>Eine Woche davor</item>
+        <item>Ein Tag davor</item>
+        <item>Einen Monat davor</item>
     </string-array>
     
 </resources>

@@ -6,12 +6,10 @@
     <string name="hello_world">Nope</string>
     <string name="button_additem">Add Item</string>
     <string name="title_activity_add_item">Add Item</string>
-    <string name="edit_name_hint">Enter a Name...</string>
-    <string name="edit_name_label">Name:</string>
+    <string name="edit_name_label">Name</string>
     <string name="edit_picture_label">Picture:</string>
     <string name="edit_notifications_label">Notifcation Settings:</string>
-    <string name="edit_category_label">Category:</string>
-    <string name="edit_category_hint">Enter a Category...</string>
+    <string name="edit_category_label">Category</string>
     <string name="button_done">Done</string>
     <string name="button_remove">Remove From Fridge</string>
     <string name="edit_expiry_label">Expiry Date:</string>
@@ -23,5 +21,12 @@
     <string name="button_sortexpiry">Sort by Expiry Date</string>
     <string name="title_activity_searchable">SearchableActivity</string>
     <string name="title_activity_edit_item">Edit Food Item</string>
-
+    <string name="drawer">Drawer:</string>
+    <string name="drawer2">Drawer </string>
+    <string name="fridge">Fridge</string>
+    <string name="whole">Whole</string>
+    <string name="ordered_by_alphabet">ordered by alphabet</string>
+    <string name="ordered_by_expiry_date">ordered by expiry date</string>
+    <string name="ordered_by_category">ordered by category</string>
+    <string name="ordered_by_drawer">ordered by drawer</string>
 </resources>

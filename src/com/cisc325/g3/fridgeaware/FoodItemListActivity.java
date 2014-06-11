@@ -1,6 +1,5 @@
 package com.cisc325.g3.fridgeaware;
 
-import java.util.Date;
 import java.util.List;
 
 import com.cisc325.g3.fridgeaware.models.*;
@@ -11,24 +10,25 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.SearchView;
 
 public class FoodItemListActivity extends Activity {
 
 	private ArrayAdapter<FoodItem> adapter;
 	private FoodItemDataSource datasource;
-	private boolean useAlphaSort;
-	private Button sortButton;
+	private int typeOfSort, drawer = 0;
+	
+	public final static int SORT_BY_ALPHABET = 0;
+	public final static int SORT_BY_EXPIRED_DATE = 1;
+	public final static int SORT_BY_CATEGORY = 2;
+	public final static int SORT_BY_DRAWER = 3;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +36,35 @@ public class FoodItemListActivity extends Activity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_item_list);
         
-        Button addItemButton = (Button) findViewById(R.id.button_add_item);
+        typeOfSort = SORT_BY_ALPHABET;
         
-        addItemButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-				Intent intent = new Intent(FoodItemListActivity.this, AddItemActivity.class);
-				startActivityForResult(intent, 0);
-				
-			}
-		});
+        NumberPicker pickerDrawer = (NumberPicker) findViewById(R.id.picker_drawer);
         
+        pickerDrawer.setMinValue(0);
+        pickerDrawer.setMaxValue(6);
+        pickerDrawer.setDisplayedValues( new String[] { getString(R.string.fridge), getString(R.string.drawer2)+" 1", getString(R.string.drawer2)+" 2", getString(R.string.drawer2)+" 3" , getString(R.string.drawer2)+" 4", getString(R.string.drawer2)+" 5", getString(R.string.drawer2)+" 6" } );
+        pickerDrawer.setWrapSelectorWheel(true);
+        pickerDrawer.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+              	drawer = newVal;
+                dBUpdateArrayAdapter();
+            }
+        });
+        
+        NumberPicker sortOfOrdering = (NumberPicker) findViewById(R.id.picker_sorting);
+        sortOfOrdering.setMinValue(0);
+        sortOfOrdering.setMaxValue(3);
+        sortOfOrdering.setDisplayedValues( new String[] { getString(R.string.ordered_by_alphabet), getString(R.string.ordered_by_expiry_date), getString(R.string.ordered_by_category), getString(R.string.ordered_by_drawer) } );
+        sortOfOrdering.setWrapSelectorWheel(true);
+        sortOfOrdering.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                typeOfSort = newVal;
+                dBUpdateArrayAdapter();
+            }
+        }); 
+                
         ListView lv = (ListView) findViewById(R.id.foodlist);
         
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,40 +83,11 @@ public class FoodItemListActivity extends Activity {
         	
 		});
         
-        sortButton = (Button) findViewById(R.id.button_sortalpha);
-        
-        sortButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				FoodItemListActivity.this.toogleSort();
-			}
-		});
-        
         dBUpdateArrayAdapter();
         
     }
     
-    protected void toogleSort() {
-		useAlphaSort = !useAlphaSort;
-		if (useAlphaSort) {
-			sortButton.setText(R.string.button_sortexpiry);
-		} else {
-			sortButton.setText(R.string.button_sortalpha);
-		}
-		
-		dBUpdateArrayAdapter();
-	}
-
-	@Override
-    public void onResume() {
-    	
-    	//dBUpdateArrayAdapter();
-    	
-    	super.onResume();
-    	
-    }
-    
+  
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	
@@ -145,6 +132,8 @@ public class FoodItemListActivity extends Activity {
 			}
 		});
         
+        
+        
         return true;
         
     }
@@ -154,12 +143,16 @@ public class FoodItemListActivity extends Activity {
     	
     	//Attach Add Item Button Listener...
     	switch(item.getItemId()) {
+    		
+    	case R.id.adder:
+    		Intent intent = new Intent(FoodItemListActivity.this, AddItemActivity.class);
+			startActivityForResult(intent, 0);
+    		
     	
 	    	default:
 	    		return super.onOptionsItemSelected(item);
     	
     	}
-    	
     }
     
     public ArrayAdapter<FoodItem> getFoodItemAdapter() {
@@ -183,8 +176,7 @@ public class FoodItemListActivity extends Activity {
     	
     	datasource = new FoodItemDataSource(this);
         datasource.open();
-    	
-    	List<FoodItem> items = datasource.getAllFoodItems(useAlphaSort);
+    	List<FoodItem> items = datasource.getAllFoodItems(typeOfSort, drawer);
         
         //Populate ListView...
         ListView listview = (ListView) findViewById(R.id.foodlist);
@@ -218,11 +210,9 @@ public class FoodItemListActivity extends Activity {
 	  		List<FoodItem> items = datasource.searchFoodItems(query);
 	  		
 	  		datasource.close();
-	          
+	         
 	        searchUpdateArrayAdapter(items);
         
   		}
-  		
   	}
-    
 }

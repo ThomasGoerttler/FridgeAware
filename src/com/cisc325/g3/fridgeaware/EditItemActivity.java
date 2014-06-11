@@ -7,17 +7,23 @@ import com.cisc325.g3.fridgeaware.models.FoodItem;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-public class EditItemActivity extends Activity {
+public class EditItemActivity extends FragmentActivity {
 	
 	private FoodItem foodItem;
 
@@ -35,13 +41,33 @@ public class EditItemActivity extends Activity {
 		foodItem = datasource.getFoodItem(getIntent().getLongExtra("ID",-1));
 		
 		((EditText) findViewById(R.id.edit_name)).setText((CharSequence)foodItem.getName());
-		((DatePicker) findViewById(R.id.edit_picker_expiry)).updateDate(foodItem.getDate().getYear() + 1900,
+		final DatePicker expiryPicker = ((DatePicker) findViewById(R.id.edit_picker_expiry));
+		expiryPicker.updateDate(foodItem.getDate().getYear() + 1900,
 				foodItem.getDate().getMonth(),
 				foodItem.getDate().getDate());
 		
-		datasource.close();
+		TextView mDateTextView = (TextView) findViewById(R.id.textView1234);
 		
-		//Notification Settings Spinner...
+		mDateTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	DatePickerDialogFragment t = new DatePickerDialogFragment ();
+            	t.show(getSupportFragmentManager(), "datePicker");
+            }
+        });  
+		
+		//Number Picker
+		NumberPicker drawer = (NumberPicker) findViewById(R.id.edit_picker_categorie);
+		drawer.setMinValue(1);
+		drawer.setMaxValue(6);
+		drawer.setValue(foodItem.getDrawer());
+
+		EditText categoryEditText = (EditText) findViewById(R.id.edit_category);
+ 	   	categoryEditText.setText(foodItem.getCategory());
+	   
+	   	datasource.close();
+	   
+	   //Notification Settings Spinner...
 		Spinner spinner = (Spinner) findViewById(R.id.edit_spinner_notifications);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 		        R.array.notifications_spinner_array, android.R.layout.simple_spinner_item);
@@ -59,9 +85,12 @@ public class EditItemActivity extends Activity {
 				EditText nameEditText = (EditText) findViewById(R.id.edit_name);
 				String name = nameEditText.getText().toString();
 				
-				DatePicker expiryPicker = (DatePicker) findViewById(R.id.edit_picker_expiry);
+		        EditText categoryEditText = (EditText) findViewById(R.id.edit_category);
+				String category = categoryEditText.getText().toString();
 				
-				Date expiryDate = new Date(expiryPicker.getYear(),
+				int drawer = ((NumberPicker) findViewById(R.id.edit_picker_categorie)).getValue();
+				
+				Date expiryDate = new Date(expiryPicker.getYear()-1900,
 						expiryPicker.getMonth(),
 						expiryPicker.getDayOfMonth());
 				expiryDate.setHours(12);
@@ -69,7 +98,7 @@ public class EditItemActivity extends Activity {
 				FoodItemDataSource datasource = new FoodItemDataSource(EditItemActivity.this);
 		        datasource.open();
 		        
-		        datasource.updateFoodItem(foodItem.getId(), name, expiryDate, 0);
+		        datasource.updateFoodItem(foodItem.getId(), name, expiryDate, 0, category, drawer);
 		        
 		        datasource.close();
 				

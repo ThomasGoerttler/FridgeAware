@@ -9,9 +9,11 @@ public class FoodItem {
 	private String name;
 	private Date expiry;
 	private int notificationSetting;
-	private int category;
+	private String category;
+	private int drawer;
 	
-	private static SimpleDateFormat date_format = new SimpleDateFormat("MMMM d");
+	
+	private static SimpleDateFormat date_format = new SimpleDateFormat("d MMMM yyyy");
 	
 	public static final SimpleDateFormat database_format = new SimpleDateFormat("yyyy/MM/dd");
 	
@@ -26,6 +28,13 @@ public class FoodItem {
 	public FoodItem(String name, Date expiry) {
 		this.name = name;
 		this.expiry = expiry;
+	}
+	
+	public FoodItem(String name, Date expiry, String category, int drawer) {
+		this.name = name;
+		this.expiry = expiry;
+		this.category = category;
+		this.drawer = drawer;
 	}
 	
 	public String getName() {
@@ -68,12 +77,19 @@ public class FoodItem {
 		this.notificationSetting = notificationSetting;
 	}
 
-	public int getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 	
+	public int getDrawer() {
+		return drawer;
+	}
+
+	public void setDrawer(int drawer) {
+		this.drawer = drawer;
+	}
 }

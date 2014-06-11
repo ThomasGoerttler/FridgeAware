@@ -1,6 +1,5 @@
 package com.cisc325.g3.fridgeaware;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,11 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cisc325.g3.fridgeaware.models.*;
-
+ 
 public class FoodItemAdapter extends ArrayAdapter<FoodItem>{
 
     Context context; 
@@ -41,6 +39,7 @@ public class FoodItemAdapter extends ArrayAdapter<FoodItem>{
             
             holder = new FoodItemHolder();
             holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
+            holder.categoryTitle = (TextView)row.findViewById(R.id.categoryTitle);
             holder.expiryTitle = (TextView)row.findViewById(R.id.expiryTitle);
             
             row.setTag(holder);
@@ -56,15 +55,18 @@ public class FoodItemAdapter extends ArrayAdapter<FoodItem>{
         if(foodItem.getDate().before(new Date())) {
         	holder.txtTitle.setTextColor(Color.RED);
         	holder.expiryTitle.setTextColor(Color.RED);
+        	holder.categoryTitle.setTextColor(Color.RED);
         	row.setBackgroundColor(Color.argb(255, 255, 235, 235));
         }
         else {
         	holder.txtTitle.setTextColor(Color.BLACK);
         	holder.expiryTitle.setTextColor(Color.BLACK);
+        	holder.categoryTitle.setTextColor(Color.BLACK);
         	row.setBackgroundColor(Color.WHITE);
         }
         
         holder.expiryTitle.setText(foodItem.getDateString());
+        holder.categoryTitle.setText(foodItem.getDrawer() + " | " + foodItem.getCategory());
         holder.foodItem = foodItem;
         
         return row;
@@ -74,6 +76,7 @@ public class FoodItemAdapter extends ArrayAdapter<FoodItem>{
     {
         TextView txtTitle;
         TextView expiryTitle;
+        TextView categoryTitle;
         FoodItem foodItem;
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tiefkühltruhe</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="hello_world">Nein</string>
+    <string name="button_additem">Artikel hinzufügen</string>
+    <string name="title_activity_add_item">Artikel hinzufügen</string>
+    <string name="edit_name_label">Name</string>
+    <string name="edit_picture_label">Bild:</string>
+    <string name="edit_notifications_label">Benachrichtigung:</string>
+    <string name="edit_category_label">Kategorie</string>
+    <string name="button_done">Fertig</string>
+    <string name="button_remove">Aus der Tiefkühltruhe entfernen</string>
+    <string name="edit_expiry_label">Ablaufdatum:</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="search_hint">Suche Artikel</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_search">Suchen</string>
+    <string name="button_sortalpha">sortiert nach Alphabet</string>
+    <string name="button_sortexpiry">sortiert nach Ablaufdatum</string>
+    <string name="title_activity_searchable">Suchbare Aktivität</string>
+    <string name="title_activity_edit_item">Artikel bearbeiten</string>
+    <string name="drawer">Fach:</string>
+    <string name="drawer2">Fach</string>
+    <string name="fridge">Tiefkühltruhe</string>
+    <string name="whole">Ganze</string>
+    <string name="ordered_by_alphabet">sortiert nach Alphabet</string>
+    <string name="ordered_by_expiry_date">sortiert nach Ablaufdatum</string>
+    <string name="ordered_by_category">sortiert nach Kategorie</string>
+    <string name="ordered_by_drawer">sortiert nach Fach</string>
+
+</resources>

@@ -10,7 +10,7 @@ import android.util.Log;
 public class FridgeDBHelper extends SQLiteOpenHelper {
 	
 
-	private static final String DATABASE_NAME = "fridgeaware.db";
+	private static final String DATABASE_NAME = "frigdeAwareDatabase1.db";
 	private static final int DATABASE_VERSION = 1;
 	
 	public static final String FOODITEM_TABLE_NAME = "fooditems";
@@ -18,6 +18,10 @@ public class FridgeDBHelper extends SQLiteOpenHelper {
 	public static final String FOODITEM_COLUMN_NAME = "name";
 	public static final String FOODITEM_COLUMN_EXPIRY = "expiry";
 	public static final String FOODITEM_COLUMN_NOTIFICATION_SETTING = "notification_setting";
+	public static final String FOODITEM_COLUMN_CATEGORY = "category";
+	public static final String FOODITEM_COLUMN_DRAWER = "drawer";
+	public static final String FOODITEM_COLUMN_COUNT = "count";
+	public static final String FOODITEM_COLUMN_UNIT = "unit";
 	
 	
 	// Database creation sql statement
@@ -26,7 +30,11 @@ public class FridgeDBHelper extends SQLiteOpenHelper {
 	    	+ FOODITEM_COLUMN_ID + " integer primary key autoincrement, "
 		    + FOODITEM_COLUMN_NAME + " text not null, "
 		    + FOODITEM_COLUMN_EXPIRY + " text not null, "
-		    + FOODITEM_COLUMN_NOTIFICATION_SETTING + " integer not null "
+		    + FOODITEM_COLUMN_NOTIFICATION_SETTING + " integer not null, "
+		    + FOODITEM_COLUMN_CATEGORY + " text not null, "
+			+ FOODITEM_COLUMN_DRAWER + " integer not null, "
+			+ FOODITEM_COLUMN_COUNT + " integer, "
+			+ FOODITEM_COLUMN_UNIT + " text "
 	    + ");";
 
 	

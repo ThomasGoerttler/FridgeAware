@@ -29,6 +29,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         Notification notification = new Notification(R.drawable.launcher_icon, foodItem.getName() + " will expire soon",
         System.currentTimeMillis());
         
+        
         // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, FoodItemListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         
